@@ -2,9 +2,11 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    sf::RenderWindow window(sf::VideoMode(1300, 650), "SFML works!");
+    sf::Texture textura;
+    sf::Sprite fondo;
+    textura.loadFromFile("../Recursos/mapamundi.png");
+    fondo.setTexture(textura);
 
     while (window.isOpen())
     {
@@ -16,7 +18,7 @@ int main()
         }
 
         window.clear();
-        window.draw(shape);
+       window.draw(fondo);
         window.display();
     }
 

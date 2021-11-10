@@ -143,6 +143,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Grafos.cpp" />
+    <ClCompile Include="Mapa.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Mapa.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
