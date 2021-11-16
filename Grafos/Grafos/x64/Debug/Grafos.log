@@ -1,2 +1,84 @@
 ﻿  Grafos.cpp
-  Grafos.vcxproj -> C:\Users\JOSS\Documents\GitHub\Proyecto_Grafos\Grafos\x64\Debug\Grafos.exe
+C:\Users\Joshua\Documents\sexto semestre\Estructuras\Proyecto#2\Proyecto_Grafos\Grafos\Grafos\Grafos.cpp(148,78): warning C4244: 'argumento': conversión de 'T' a 'T'; posible pérdida de datos
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Joshua\Documents\sexto semestre\Estructuras\Proyecto#2\Proyecto_Grafos\Grafos\Grafos\Grafos.cpp(148,61): warning C4244: 'argumento': conversión de 'T' a 'T'; posible pérdida de datos
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Joshua\Documents\sexto semestre\Estructuras\Proyecto#2\Proyecto_Grafos\Grafos\Grafos\Grafos.cpp(149,78): warning C4244: 'argumento': conversión de 'T' a 'T'; posible pérdida de datos
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Joshua\Documents\sexto semestre\Estructuras\Proyecto#2\Proyecto_Grafos\Grafos\Grafos\Grafos.cpp(149,61): warning C4244: 'argumento': conversión de 'T' a 'T'; posible pérdida de datos
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Joshua\Documents\sexto semestre\Estructuras\Proyecto#2\Proyecto_Grafos\Grafos\Grafos\Grafos.cpp(289,117): warning C4244: 'argumento': conversión de 'T' a 'T'; posible pérdida de datos
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Joshua\Documents\sexto semestre\Estructuras\Proyecto#2\Proyecto_Grafos\Grafos\Grafos\Grafos.cpp(289,80): warning C4244: 'argumento': conversión de 'T' a 'T'; posible pérdida de datos
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Joshua\Documents\sexto semestre\Estructuras\Proyecto#2\Proyecto_Grafos\Grafos\Grafos\Grafos.cpp(290,117): warning C4244: 'argumento': conversión de 'T' a 'T'; posible pérdida de datos
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Joshua\Documents\sexto semestre\Estructuras\Proyecto#2\Proyecto_Grafos\Grafos\Grafos\Grafos.cpp(290,80): warning C4244: 'argumento': conversión de 'T' a 'T'; posible pérdida de datos
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Joshua\Documents\sexto semestre\Estructuras\Proyecto#2\Proyecto_Grafos\Grafos\Grafos\Grafos.cpp(331,58): warning C4244: 'argumento': conversión de 'T' a 'float'; posible pérdida de datos
+          with
+          [
+              T=int
+          ]
+C:\Users\Joshua\Documents\sexto semestre\Estructuras\Proyecto#2\Proyecto_Grafos\Grafos\Grafos\Grafos.cpp(331,40): warning C4244: 'argumento': conversión de 'T' a 'float'; posible pérdida de datos
+          with
+          [
+              T=int
+          ]
+  Grafos.vcxproj -> C:\Users\Joshua\Documents\sexto semestre\Estructuras\Proyecto#2\Proyecto_Grafos\Grafos\x64\Debug\Grafos.exe
