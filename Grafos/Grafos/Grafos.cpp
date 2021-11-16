@@ -1,18 +1,21 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/OpenGL.hpp>
-#include <vector>
 #include <iostream>
 #include <cstdlib>
 #include <string>
-#include <cmath>
+#include <vector>
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/OpenGL.hpp>
 
 using namespace std;
+using std::cout; using std::cin;
+using std::endl; using std::string;
+using std::vector;
 
 int main()
 {
 	//-- Create the render Window --//
-	sf::RenderWindow mainWindow(sf::VideoMode(1024, 700), "Kruskal's Minimum Spanning Tree", sf::Style::Close);
+	sf::RenderWindow mainWindow(sf::VideoMode(1300, 700), "Grafos ", sf::Style::Close);
 	//-- Limit the given framerate --//
 	mainWindow.setFramerateLimit(60);
 	//-- Disable Key Repetition to enable button pressed events. --//
@@ -35,19 +38,37 @@ int main()
 
 	//-- Every node is assigned a Unique Tree ID in the Beginning --//
 	int treeID = 0;
-
+	char letra[26] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','V','W','X','Y','Z' };
 	//-- Declarations Section --//
 	//--------------------------//
+	sf::Texture textura;
+	sf::Sprite fondo;
 
 	sf::Vector2i localPosition;
 
 	sf::Texture gemTexture;
-	gemTexture.loadFromFile("SphereGem.png");
+	sf::Texture gemTexture2;
+	sf::Texture gemTexture3;
+	textura.loadFromFile("../Recursos/mapamundi.png");
+	gemTexture.loadFromFile("A.png");
+	gemTexture2.loadFromFile("B.png");
+	gemTexture3.loadFromFile("C.png");
 
 	sf::Sprite gemSprite;
+	sf::Sprite gemSprite2;
+	sf::Sprite gemSprite3;
+	fondo.setTexture(textura);
 	gemSprite.setTexture(gemTexture);
 	gemSprite.setOrigin(6, 6);
 	gemSprite.setScale(3, 3);
+	//-----------------------
+	gemSprite2.setTexture(gemTexture2);
+	gemSprite2.setOrigin(6, 6);
+	gemSprite2.setScale(3, 3);
+	//-----------------------
+	gemSprite3.setTexture(gemTexture3);
+	gemSprite3.setOrigin(6, 6);
+	gemSprite3.setScale(3, 3);
 
 	sf::RectangleShape primitiveLine;
 
@@ -92,6 +113,7 @@ int main()
 							if (sqrt(pow((localPosition.x - pointVector[i].x), 2) + pow((localPosition.y - pointVector[i].y), 2)) < 100)
 							{
 								validPos = false;
+								cout << "posicion en falso" << endl;
 							}
 						}
 
@@ -123,23 +145,22 @@ int main()
 					//-- Right click to select two nodes to link --//
 					if (event.key.code == sf::Mouse::Right)
 					{
-						cout << "- Entre --" << endl;
+						cout << "vector point tamano fuera " + pointVector.size() << "eso" << endl;
 						//-- Search for a close local point, if found then anchor and set it as "active" --//
 						for (int i = 0; i < pointVector.size(); i++)
 						{
-							cout << "- Entre al for --" << endl;
+							cout << "point vector tamano dentro " + pointVector.size() << "eso" << endl;
+
 							if (sqrt(pow((localPosition.x - pointVector[i].x), 2) + pow((localPosition.y - pointVector[i].y), 2)) < 100)
 							{
-								cout << "- Entre al primer if--" << endl;
+								cout << "temmporal vector tamano fuera " + activeTemp.size() << "eso" << endl;
 								if (activeTemp.size() < 2)
 								{
-									cout << "- Entre al segundo if--" << endl;
+
 									if (activeTemp.size() == 1)
 									{
-										cout << "- Entre al tercer if--" << endl;
 										if (activeTemp[0] != pointVector[i])
 										{
-											cout << "- Entre al cuarto if--" << endl;
 											activeTemp.push_back(pointVector[i]);
 
 											//-- Clear the "active temporary" vector after the line is added to the lineVector --//
@@ -152,31 +173,32 @@ int main()
 											tempLine[1].color = sf::Color::Blue;
 
 											lineVector.push_back(tempLine);
-
-											activeTemp.clear();
-
+											cout << "LLene el vector linea" << endl;
+											
+											activeTemp.insert(activeTemp.end(),pointVector.begin(),pointVector.end());
+											cout << "temporal antes de borrar" + activeTemp.size() << "eso" << endl;
+											
+											//activeTemp.clear();
+											cout << "temporal despues de borrar " + activeTemp.size() <<"eso" << endl;
 
 											//-- Add the new line to the Edge Vector, make sure it doesn't already exist. --//
 											bool valid = true;
+											cout << "edgevector  " + edgeVect.size() << endl;
 											for (int i = 0; i < edgeVect.size(); i++)
 											{
-												cout << "- Entre al segundo for--" << endl;
+												cout << "edgevector dentro " + edgeVect.size() << endl;
 												if ((edgeVect[i].vertexOne.x == activeTemp[1].x) && (edgeVect[i].vertexOne.y == activeTemp[1].y))
 												{
-													cout << "- Entre al primer if2--" << endl;
 													if (((edgeVect[i].vertexTwo.x == activeTemp[0].x) && (edgeVect[i].vertexTwo.y == activeTemp[0].y)))
 													{
-														cout << "- Entre al segundo if2--" << endl;
 														valid = false;
 													}
 												}
 
 												if ((edgeVect[i].vertexTwo.x == activeTemp[1].x) && (edgeVect[i].vertexTwo.y == activeTemp[1].y))
 												{
-													cout << "- Entre al primer if3--" << endl;
 													if (((edgeVect[i].vertexOne.x == activeTemp[0].x) && (edgeVect[i].vertexOne.y == activeTemp[0].y)))
 													{
-														cout << "- Entre al segundo if3--" << endl;
 														valid = false;
 													}
 												}
@@ -186,27 +208,23 @@ int main()
 
 											if (valid)
 											{
-												cout << "- Entre al ultimo if--" << endl;
 												Edge newEdge;
-												cout << "- antes--" << endl;
-												cout<<"saxax"<<sqrt(pow((activeTemp[1].x - activeTemp[0].x), 2) + pow((activeTemp[1].y - activeTemp[0].y), 2));
-												//cout << "-Despues--"<<newEdge.length << endl;
-												cout << "Tine" << activeTemp[1].x<<endl;
+												newEdge.length = sqrt(pow((activeTemp[1].x - activeTemp[0].x), 2) + pow((activeTemp[1].y - activeTemp[0].y), 2));
 												newEdge.vertexOne.x = activeTemp[1].x;
-												cout << "- antes--" << endl;
 												newEdge.vertexOne.y = activeTemp[1].y;
-												cout << "-Despues--" << endl;
+
 												newEdge.vertexTwo.x = activeTemp[0].x;
-												cout << "- antes--" << endl;
 												newEdge.vertexTwo.y = activeTemp[0].y;
-												cout << "-Despues--" << endl;
+
 												edgeVect.push_back(newEdge);
-												cout << "-antes--" << endl;
+
 												//-- Output Edge Data to the console --//
-												cout << "- Edge Created --" << endl;
+												cout << "- Vertice Creado --" << endl;
 												cout << "Vertex - 1: " << activeTemp[1].x << " " << activeTemp[1].y << endl;
 												cout << "Vertex - 2: " << activeTemp[0].x << " " << activeTemp[0].y << endl;
 												cout << "Length: " << newEdge.length << endl << endl;
+												activeTemp.clear();
+
 											}
 
 										}
@@ -214,7 +232,6 @@ int main()
 
 									else
 									{
-										cout << "- Entre al else--" << endl;
 										activeTemp.push_back(pointVector[i]);
 									}
 
@@ -311,29 +328,47 @@ int main()
 		//-- Delay Section (Only Active When Calculating) --//
 
 		Sleep(delayAmount);
-
+		
 		mainWindow.clear(sf::Color::Black);
-
+		mainWindow.draw(fondo);
 
 		//-- Draw all the given Sprites and Primitives --//
+		//cout << "vector linea " + lineVector.size() << endl;
 		for (int i = 0; i < lineVector.size(); i++)
 		{
+			//cout << "Dibujo la linea" << endl;
 			mainWindow.draw(lineVector[i]);
 		}
 
 		for (int i = 0; i < linkedVector.size(); i++)
 		{
+			//cout << "Dibujo la linea amarilla" << endl;
 			mainWindow.draw(linkedVector[i]);
 		}
 
 		for (int i = 0; i < pointVector.size(); i++)
 		{
-			gemSprite.setPosition(pointVector[i].x, pointVector[i].y);
-			mainWindow.draw(gemSprite);
+			if (i == 0) {
+				gemSprite.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite);
+			}
+			else if (i == 1) {
+				gemSprite2.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite2);
+			}
+			else if (i == 2) {
+				gemSprite3.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite3);
+			}
+			
+			
+			
+			
+		
 		}
 
 
-
+		
 		//-- Call the display method --//
 		mainWindow.display();
 	}
