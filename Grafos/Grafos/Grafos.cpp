@@ -2,25 +2,29 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
+#include<fstream>
+#include<iostream>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/OpenGL.hpp>
+
 using namespace std;
 using std::cout; using std::cin;
 using std::endl; using std::string;
 using std::vector;
 
+#define GRAFO_GUARDADO "../Recursos/Grafo.txt"
+
 int main()
 {
-	//-- Create the render Window --//
+
 	sf::RenderWindow mainWindow(sf::VideoMode(1300, 650), "Grafos ", sf::Style::Close);
-	//-- Limit the given framerate --//
+
 	mainWindow.setFramerateLimit(60);
-	//-- Disable Key Repetition to enable button pressed events. --//
+	
 	mainWindow.setKeyRepeatEnabled(false);
 
-	//-- Structure for storing the "Tree/Node" data --//
 	struct Node
 	{
 		int TreeID;
@@ -36,11 +40,15 @@ int main()
 		double length;
 	};
 
-	//-- Every node is assigned a Unique Tree ID in the Beginning --//
+	struct Peso {
+		int X;
+		int Y;
+		int pesito;
+	};
+
 	int treeID = 0;
 	char letra[27] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','V','W','X','Y','Z'};
-	//-- Declarations Section --//
-	//--------------------------//
+
 	sf::Texture textura;
 	sf::Sprite fondo;
 	sf::Font fuente;
@@ -242,57 +250,67 @@ int main()
 	//Texto//
 	fuente.loadFromFile("../Recursos/OpenSans-Bold.ttf");
 	sf::Text menu("~~Menú de opciones~~", fuente, 12);
-	menu.setPosition(80, 510);
+	menu.setPosition(80, 490);
 	menu.setFillColor(sf::Color::Black);
+
+	sf::Text limpiar("Presione L para limpiar la pantalla", fuente, 12);
+	limpiar.setPosition(20, 510);
+	limpiar.setFillColor(sf::Color::Black);
+
 	sf::Text Dijkstra("Presione D para aplicar el algoritmo dijkstra", fuente, 12);
 	Dijkstra.setPosition(20, 530);
 	Dijkstra.setFillColor(sf::Color::Black);
+
 	sf::Text Warshall("Presione W para aplicar el algoritmo warshall", fuente, 12);
 	Warshall.setPosition(20, 550);
 	Warshall.setFillColor(sf::Color::Black);
+
 	sf::Text Prim("Presione P para aplicar el algoritmo prim", fuente, 12);
 	Prim.setPosition(20, 570);
 	Prim.setFillColor(sf::Color::Black);
+
 	sf::Text Kruskal("Presione K para aplicar el algoritmo kruskal", fuente, 12);
 	Kruskal.setPosition(20, 590);
 	Kruskal.setFillColor(sf::Color::Black);
+
 	sf::Text Guardar("Presione G para aplicar el algoritmo guardar", fuente, 12);
 	Guardar.setPosition(20, 610);
 	Guardar.setFillColor(sf::Color::Black);
+
 	sf::Text Cargar("Presione C para aplicar el algoritmo cargar un grafo", fuente, 12);
 	Cargar.setPosition(20, 630);
 	Cargar.setFillColor(sf::Color::Black);
 
-	//sf::RectangleShape primitiveLine;
+	
 
 	vector<sf::Vector2i> pointVector;
 	vector<sf::VertexArray> lineVector;
 	vector<sf::VertexArray> linkedVector;
 
-	//-- Temporary active node storage vector --//
 	vector<sf::Vector2i> activeTemp;
 
-	//-- Node vector for mathematical calculation --//
+
 	vector<Node> nodeVect;
 	vector<Edge> edgeVect;
 	vector<Edge> orden;
+	vector<Peso> PesoArista;
 	Edge ordenfin;
 	Edge ordenInicio;
 
 
-	//-- Bool for starting the calculations --//
+
 	bool calcStarted = false;
 	bool calcDijkstra = false;
+	bool calcFloyd = false;
 
 	int delayAmount = 0;
 	int solutionIndex = 0;
 	int peso = 0, lugarInicio = 0,lugarfin=0;
 	char inicio;
 	char fin;
-	//-- Main Game Loop --//
+
 	while (mainWindow.isOpen())
 	{
-		//-- Event Methods --//
 		sf::Event event;
 		while (mainWindow.pollEvent(event))
 		{
@@ -318,12 +336,10 @@ int main()
 
 						if (validPos)
 						{
-							
-
-							//-- Place a pinpoint on the given click (add it to the main vector) --//
+													
 							pointVector.push_back(localPosition);
 
-							//-- Update the Node Vector --//
+						
 							Node newNode;
 							newNode.TreeID = treeID;
 							treeID++;
@@ -344,11 +360,11 @@ int main()
 					}
 
 
-					//-- Right click to select two nodes to link --//
+
 					if (event.key.code == sf::Mouse::Right)
 					{
 						
-						//-- Search for a close local point, if found then anchor and set it as "active" --//
+
 						for (int i = 0; i < pointVector.size(); i++)
 						{
 							
@@ -365,7 +381,7 @@ int main()
 										{
 											activeTemp.push_back(pointVector[i]);
 
-											//-- Clear the "active temporary" vector after the line is added to the lineVector --//
+
 											sf::VertexArray tempLine(sf::Lines, 2);
 
 											tempLine[0].position = sf::Vector2f(activeTemp[1].x, activeTemp[1].y);
@@ -382,7 +398,6 @@ int main()
 											activeTemp.insert(activeTemp.end(),pointVector.begin(),pointVector.end());
 											
 
-											//-- Add the new line to the Edge Vector, make sure it doesn't already exist. --//
 											bool valid = true;
 											
 											for (int i = 0; i < edgeVect.size(); i++)
@@ -405,14 +420,21 @@ int main()
 												}
 											}
 
-											//-- No duplicates found, add the edge to the Vector --//
+						
 
 											if (valid)
 											{
 												cout << "De que peso desea su arista " << endl;
 												cin >> peso;
+
+												Peso PesoA;
+												PesoA.pesito = peso;
+												PesoA.X = (activeTemp[0].x + activeTemp[1].x) / 2;
+												PesoA.Y = (activeTemp[1].y + activeTemp[0].y) / 2;
+												PesoArista.push_back(PesoA);
+
 												Edge newEdge;
-												//newEdge.length = sqrt(pow((activeTemp[1].x - activeTemp[0].x), 2) + pow((activeTemp[1].y - activeTemp[0].y), 2));
+
 												newEdge.length = peso;
 												newEdge.vertexOne.x = activeTemp[1].x;
 												newEdge.vertexOne.y = activeTemp[1].y;
@@ -422,7 +444,7 @@ int main()
 
 												edgeVect.push_back(newEdge);
 
-												//-- Output Edge Data to the console --//
+										
 												cout << "- Arista Creada --" << endl;
 												cout << "Vertice - 1: " << activeTemp[1].x << " " << activeTemp[1].y << endl;
 												cout << "Vertice - 2: " << activeTemp[0].x << " " << activeTemp[0].y << endl;
@@ -453,8 +475,6 @@ int main()
 				{
 					delayAmount = 500;
 
-					//-- Inefficiently Sort the edge Vector from small to large --//
-
 					if (!calcStarted)
 					{
 						for (int i = 0; i < edgeVect.size(); i++)
@@ -469,7 +489,7 @@ int main()
 						}
 					}
 
-					//-- Prevent additional nodes from being added and Start the Calculation --//
+					
 					calcStarted = true;
 				}
 
@@ -477,8 +497,7 @@ int main()
 				else if (event.key.code == sf::Keyboard::P) {
 					delayAmount = 500;
 
-					//-- Inefficiently Sort the edge Vector from small to large --//
-
+				
 					if (!calcStarted)
 					{
 						for (int i = 0; i < edgeVect.size(); i++)
@@ -493,12 +512,59 @@ int main()
 						}
 					}
 
-					//-- Prevent additional nodes from being added and Start the Calculation --//
+			
 					calcStarted = true;
 				}
 				//Algoritmo de Warshall
 				else if (event.key.code == sf::Keyboard::W) {
-					//TODO
+					delayAmount = 500;
+					cout << "Dijite el nodo Inicial " << endl;
+					cin >> inicio;
+					cout << "Dijite el nodo Final " << endl;
+					cin >> fin;
+					for (int x = 0; x < 27; x++) {
+						if (letra[x] == inicio) {
+							lugarInicio = x;
+						}
+						if (letra[x] == fin) {
+							lugarfin = x;
+						}
+					}
+					orden.push_back(edgeVect[lugarInicio]);
+					ordenInicio = edgeVect[lugarInicio];
+
+					if (!calcFloyd)
+					{
+						for (int i = 0; i < edgeVect.size(); i++)
+						{
+							for (int j = i; j < edgeVect.size(); j++)
+							{
+								if (edgeVect[i].length > edgeVect[j].length)
+								{
+									swap(edgeVect[i], edgeVect[j]);
+
+								}
+
+							}
+						}
+					}
+					for (int j = 0; j < edgeVect.size(); j++)
+					{
+						if (ordenInicio.length != edgeVect[j].length)
+						{
+
+							orden.push_back(edgeVect[j]);
+
+
+						}
+					}
+
+					for (int i = 0; i < orden.size(); i++)
+					{
+						cout << "Tamaño Orden " << orden[i].length << endl;
+					}
+
+					calcFloyd = true;
 				}
 				//Algoritmo de Dijkstra
 				else if (event.key.code == sf::Keyboard::D) {
@@ -517,8 +583,7 @@ int main()
 					}
 					orden.push_back(edgeVect[lugarInicio]);
 					ordenInicio = edgeVect[lugarInicio];
-					//ordenfin = edgeVect[lugarfin];
-					//-- Inefficiently Sort the edge Vector from small to large --//
+
 					if (!calcDijkstra)
 					{
 						for (int i = 0; i < edgeVect.size(); i++)
@@ -530,7 +595,7 @@ int main()
 									swap(edgeVect[i], edgeVect[j]);
 									
 								}
-								//cout << "Tamaño vecto " << edgeVect[j].length << endl;
+								
 							}
 						}
 					}
@@ -538,36 +603,123 @@ int main()
 					{
 						if (ordenInicio.length != edgeVect[j].length)
 						{
-							//if (edgeVect[j].length != ordenfin.length) {
+							
 								orden.push_back(edgeVect[j]);
-								//cout << "Tamaño cambiando " << orden[j].length << endl;
-							//}
+					
+							
 						}
 					}
-					//orden.push_back(ordenfin);
+				
 					for (int i = 0; i < orden.size(); i++)
 					{
 						cout << "Tamaño Orden " << orden[i].length << endl;
 					}
-					//-- Prevent additional nodes from being added and Start the Calculation --//
+			
 					calcDijkstra = true;
-					//TODO
+					
 				}
 				//Guardar
 				else if (event.key.code == sf::Keyboard::G) {
-					//TODO
+				ofstream Archivo;
+				Archivo.open(GRAFO_GUARDADO, ios::app);
+				if (Archivo.is_open()) {
+					for (unsigned int j = 0; j < nodeVect.size(); j++) {
+						Archivo << nodeVect[j].TreeID << "-" << nodeVect[j].Xpos << "-" << nodeVect[j].Ypos <<"-" << edgeVect[j].vertexOne.x << "-" << edgeVect[j].vertexOne.y << "-" << edgeVect[j].vertexTwo.x << "-" << edgeVect[j].vertexTwo.y << "-" << edgeVect[j].length << "+";
+					}
+					cout << "Grafo guardado correctamente" << endl;
+					Archivo.close();
+				}
 				}
 				//Cargar
 				else if (event.key.code == sf::Keyboard::C) {
-					//TODO
+				ifstream Archivo;
+				string Linea, concatenacion;
+				int CantCaracteres;
+				int Cont = 0;
+				int Contguion = 0;
+				int Cambio = 0;
+				concatenacion = getchar();
+				Archivo.open(GRAFO_GUARDADO);
+				if (Archivo.is_open()) {
+					cout << "Grafo abierto correctamente" << endl;
+					while (getline(Archivo, Linea)) {
+						CantCaracteres = Linea.length();
+						for (int i = 0; i <= CantCaracteres; i++) {
+							Node newNode;
+							if (Linea[i] == '-') {
+								Contguion += 1;
+
+							} if (Contguion == 0) {
+								cout << "Linea id: " << Linea[i] << endl;
+								newNode.TreeID = Linea[i];
+								cout << "Id del arbol: " << treeID << endl;
+							}
+							if (Contguion == 1) {
+
+								concatenacion += Linea[i];
+								Cambio = stoi(concatenacion, nullptr, 10);
+
+								newNode.Xpos = Cambio;
+								cout << "Linea x: " << concatenacion << endl;
+							}
+							if (Contguion == 2) {
+								cout << "Linea y: " << Linea[i] << endl;
+								newNode.Ypos = Linea[i];
+
+							}
+							if (Linea[i] == '+') {
+								Contguion = 0;
+								nodeVect.push_back(newNode);
+								localPosition.x = newNode.Xpos;
+								localPosition.y = newNode.Ypos;
+								pointVector.push_back(localPosition);
+								cout << "- Nodo creado -" << endl;
+								cout << "X - Posicion en X: " << newNode.Xpos << endl;
+								cout << "Y - Posicion en Y: " << newNode.Ypos << endl;
+								cout << "Id del arbol: " << treeID << endl;
+								cout << endl << endl;
+							}
+						}
+						Cont++;
+					}
+					cout << "Grafo cargado correctamente" << endl;
+					Archivo.close();
+
+
+				}
+				}
+				else if (event.key.code == sf::Keyboard::L) {
+				nodeVect.clear();
+				edgeVect.clear();
+				mainWindow.clear();
+				pointVector.clear();
+				lineVector.clear();
+				linkedVector.clear();
+
+				activeTemp.clear();
+
+				nodeVect.clear();
+				edgeVect.clear();
+				PesoArista.clear();
+				orden.clear();
+
+				delayAmount = 0;
+				solutionIndex = 0;
+				peso = 0;
+				lugarInicio = 0;
+				lugarfin = 0;
+				calcStarted = false;
+				calcDijkstra = false;
+				calcFloyd = false;
+				inicio = '\0';
+				fin = '\0';
 				}
 			}
 
 		}
 
 		localPosition = sf::Mouse::getPosition(mainWindow);
-
-		//-- Do the necessary calculation here --//
+		//------------------------------------------------------------------------------------------------------
 		if (calcDijkstra) {
 			for (int i = 0; i < nodeVect.size(); i++)
 			{
@@ -584,7 +736,7 @@ int main()
 									{
 										if (nodeVect[j].TreeID != nodeVect[i].TreeID)
 										{
-											//-- Convert all nodes to the new treeID preventing loop creation in the next iteration --//
+										
 											for (int y = 0; y < nodeVect.size(); y++)
 											{
 												if ((nodeVect[y].TreeID == nodeVect[j].TreeID) && j != y)
@@ -595,7 +747,7 @@ int main()
 											}
 											nodeVect[j].TreeID = nodeVect[i].TreeID;
 
-											//-- Add a new overlay to the linkedVector --//
+										
 											sf::VertexArray tempLine(sf::Lines, 2);
 
 											tempLine[0].position = sf::Vector2f(orden[solutionIndex].vertexOne.x, orden[solutionIndex].vertexOne.y);
@@ -619,9 +771,63 @@ int main()
 				}
 			}
 
-			//-- Increment the solution index (Edge to check in the next iteration) --//
 			solutionIndex++;
 		}
+		//------------------------------------------------------------------------------------------------------
+		if (calcFloyd) {
+			for (int i = 0; i < nodeVect.size(); i++)
+			{
+				if (solutionIndex < orden.size()) {
+					if (orden[solutionIndex].vertexOne.x == nodeVect[i].Xpos)
+					{
+						if (orden[solutionIndex].vertexOne.y == nodeVect[i].Ypos)
+						{
+							for (int j = 0; j < nodeVect.size(); j++)
+							{
+								if (orden[solutionIndex].vertexTwo.x == nodeVect[j].Xpos)
+								{
+									if (orden[solutionIndex].vertexTwo.y == nodeVect[j].Ypos)
+									{
+										if (nodeVect[j].TreeID != nodeVect[i].TreeID)
+										{
+
+											for (int y = 0; y < nodeVect.size(); y++)
+											{
+												if ((nodeVect[y].TreeID == nodeVect[j].TreeID) && j != y)
+												{
+
+													nodeVect[y].TreeID = nodeVect[i].TreeID;
+												}
+											}
+											nodeVect[j].TreeID = nodeVect[i].TreeID;
+
+
+											sf::VertexArray tempLine(sf::Lines, 2);
+
+											tempLine[0].position = sf::Vector2f(orden[solutionIndex].vertexOne.x, orden[solutionIndex].vertexOne.y);
+											tempLine[1].position = sf::Vector2f(orden[solutionIndex].vertexTwo.x, orden[solutionIndex].vertexTwo.y);
+
+											tempLine[0].color = sf::Color::Yellow;
+											tempLine[1].color = sf::Color::Red;
+
+											linkedVector.push_back(tempLine);
+
+										}
+									}
+								}
+							}
+						}
+					}
+
+				}
+				else {
+					break;
+				}
+			}
+
+			solutionIndex++;
+		}
+		//------------------------------------------------------------------------------------------------------
 		if (calcStarted)
 		{
 			
@@ -679,14 +885,9 @@ int main()
 				}
 			}
 
-			//-- Increment the solution index (Edge to check in the next iteration) --//
 			solutionIndex++;
 		}
-
-		//-- Debugging Section --//
-		//cout << localPosition.x << " " << localPosition.y << endl;
-
-		//-- Delay Section (Only Active When Calculating) --//
+		//------------------------------------------------------------------------------------------------------
 
 		Sleep(delayAmount);
 		
@@ -694,6 +895,7 @@ int main()
 
 		mainWindow.draw(fondo);
 		mainWindow.draw(menu);
+		mainWindow.draw(limpiar);
 		mainWindow.draw(Dijkstra);
 		mainWindow.draw(Warshall);
 		mainWindow.draw(Prim);
@@ -701,12 +903,15 @@ int main()
 		mainWindow.draw(Guardar);
 		mainWindow.draw(Cargar);
 
-		//-- Draw all the given Sprites and Primitives --//
-		//cout << "vector linea " + lineVector.size() << endl;
+
 		for (int i = 0; i < lineVector.size(); i++)
 		{
-			//cout << "Dibujo la linea" << endl;
 			mainWindow.draw(lineVector[i]);
+			string mensajePeso(std::to_string(PesoArista[i].pesito));
+			sf::Text tamanio(mensajePeso, fuente, 12);
+			tamanio.setPosition(PesoArista[i].X, PesoArista[i].Y);
+			tamanio.setFillColor(sf::Color::Black);
+			mainWindow.draw(tamanio);
 		}
 
 		for (int i = 0; i < linkedVector.size(); i++)
@@ -828,11 +1033,8 @@ int main()
 		}	
 
 
-		
-		//-- Call the display method --//
 		mainWindow.display();
 	}
 
-	//-- END PROGRAM --//
 	return 0;
 }
