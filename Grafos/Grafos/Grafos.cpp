@@ -38,7 +38,7 @@ int main()
 
 	//-- Every node is assigned a Unique Tree ID in the Beginning --//
 	int treeID = 0;
-	char letra[26] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','V','W','X','Y','Z' };
+	char letra[27] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','V','W','X','Y','Z' };
 	//-- Declarations Section --//
 	//--------------------------//
 	sf::Texture textura;
@@ -50,14 +50,86 @@ int main()
 	sf::Texture gemTexture;
 	sf::Texture gemTexture2;
 	sf::Texture gemTexture3;
+	sf::Texture gemTexture4;
+	sf::Texture gemTexture5;
+	sf::Texture gemTexture6;
+	sf::Texture gemTexture7;
+	sf::Texture gemTexture8;
+	sf::Texture gemTexture9;
+	sf::Texture gemTexture10;
+	sf::Texture gemTexture11;
+	sf::Texture gemTexture12;
+	sf::Texture gemTexture13;
+	sf::Texture gemTexture14;
+	sf::Texture gemTexture15;
+	sf::Texture gemTexture16;
+	sf::Texture gemTexture17;
+	sf::Texture gemTexture18;
+	sf::Texture gemTexture19;
+	sf::Texture gemTexture20;
+	sf::Texture gemTexture21;
+	sf::Texture gemTexture22;
+	sf::Texture gemTexture23;
+	sf::Texture gemTexture24;
+	sf::Texture gemTexture25;
+	sf::Texture gemTexture26;
+	sf::Texture gemTexture27;
 	textura.loadFromFile("../Recursos/mapamundi.png");
-	gemTexture.loadFromFile("A.png");
-	gemTexture2.loadFromFile("B.png");
-	gemTexture3.loadFromFile("C.png");
+	gemTexture.loadFromFile("../Recursos/A.png");
+	gemTexture2.loadFromFile("../Recursos/B.png");
+	gemTexture3.loadFromFile("../Recursos/C.png");
+	gemTexture4.loadFromFile("../Recursos/D.png");
+	gemTexture5.loadFromFile("../Recursos/E.png");
+	gemTexture6.loadFromFile("../Recursos/F.png");
+	gemTexture7.loadFromFile("../Recursos/G.png");
+	gemTexture8.loadFromFile("../Recursos/H.png");
+	gemTexture9.loadFromFile("../Recursos/I.png");
+	gemTexture10.loadFromFile("../Recursos/J.png");
+	gemTexture11.loadFromFile("../Recursos/K.png");
+	gemTexture12.loadFromFile("../Recursos/L.png");
+	gemTexture13.loadFromFile("../Recursos/M.png");
+	gemTexture14.loadFromFile("../Recursos/N.png");
+	gemTexture15.loadFromFile("../Recursos/Ñ.png");
+	gemTexture16.loadFromFile("../Recursos/O.png");
+	gemTexture17.loadFromFile("../Recursos/P.png");
+	gemTexture18.loadFromFile("../Recursos/Q.png");
+	gemTexture19.loadFromFile("../Recursos/R.png");
+	gemTexture20.loadFromFile("../Recursos/S.png");
+	gemTexture21.loadFromFile("../Recursos/T.png");
+	gemTexture22.loadFromFile("../Recursos/U.png");
+	gemTexture23.loadFromFile("../Recursos/V.png");
+	gemTexture24.loadFromFile("../Recursos/W.png");
+	gemTexture25.loadFromFile("../Recursos/X.png");
+	gemTexture26.loadFromFile("../Recursos/Y.png");
+	gemTexture27.loadFromFile("../Recursos/Z.png");
 
 	sf::Sprite gemSprite;
 	sf::Sprite gemSprite2;
 	sf::Sprite gemSprite3;
+	sf::Sprite gemSprite4;
+	sf::Sprite gemSprite5;
+	sf::Sprite gemSprite6;
+	sf::Sprite gemSprite7;
+	sf::Sprite gemSprite8;
+	sf::Sprite gemSprite9;
+	sf::Sprite gemSprite10;
+	sf::Sprite gemSprite11;
+	sf::Sprite gemSprite12;
+	sf::Sprite gemSprite13;
+	sf::Sprite gemSprite14;
+	sf::Sprite gemSprite15;
+	sf::Sprite gemSprite16;
+	sf::Sprite gemSprite17;
+	sf::Sprite gemSprite18;
+	sf::Sprite gemSprite19;
+	sf::Sprite gemSprite20;
+	sf::Sprite gemSprite21;
+	sf::Sprite gemSprite22;
+	sf::Sprite gemSprite23;
+	sf::Sprite gemSprite24;
+	sf::Sprite gemSprite25;
+	sf::Sprite gemSprite26;
+	sf::Sprite gemSprite27;
 	fondo.setTexture(textura);
 	gemSprite.setTexture(gemTexture);
 	gemSprite.setOrigin(14, 14);
@@ -70,7 +142,103 @@ int main()
 	gemSprite3.setTexture(gemTexture3);
 	gemSprite3.setOrigin(6, 6);
 	gemSprite3.setScale(2, 2);
-
+	//-----------------------
+	 gemSprite4.setTexture(gemTexture4);
+	 gemSprite4.setOrigin(6,6);
+	 gemSprite4.setScale(2,2);
+	//-----------------------
+	 gemSprite5.setTexture(gemTexture5);
+	 gemSprite5.setOrigin(6, 6);
+	 gemSprite5.setScale(2, 2);
+	//-----------------------
+	 gemSprite6.setTexture(gemTexture6);
+	 gemSprite6.setOrigin(6, 6);
+     gemSprite6.setScale(2, 2);
+	//-----------------------
+	gemSprite7.setTexture(gemTexture7);
+	gemSprite7.setOrigin(6, 6);
+	gemSprite7.setScale(2, 2);
+	//-----------------------
+	gemSprite8.setTexture(gemTexture8);
+	gemSprite8.setOrigin(6, 6);
+	gemSprite8.setScale(2, 2);
+	//-----------------------
+	gemSprite9.setTexture(gemTexture9);
+	gemSprite9.setOrigin(6, 6);
+	gemSprite9.setScale(2, 2);
+	//-----------------------
+	gemSprite10.setTexture(gemTexture10);
+	gemSprite10.setOrigin(6, 6);
+	gemSprite10.setScale(2, 2);
+	//-----------------------
+	gemSprite11.setTexture(gemTexture11);
+	gemSprite11.setOrigin(6, 6);
+	gemSprite11.setScale(2, 2);
+	//-----------------------
+	gemSprite12.setTexture(gemTexture12);
+	gemSprite12.setOrigin(6, 6);
+	gemSprite12.setScale(2, 2);
+	//-----------------------
+	gemSprite13.setTexture(gemTexture13);
+	gemSprite13.setOrigin(6, 6);
+	gemSprite13.setScale(2, 2);
+	//-----------------------
+	gemSprite14.setTexture(gemTexture14);
+	gemSprite14.setOrigin(6, 6);
+	gemSprite14.setScale(2, 2);
+	//-----------------------
+	gemSprite15.setTexture(gemTexture15);
+	gemSprite15.setOrigin(6, 6);
+	gemSprite15.setScale(2, 2);
+	//-----------------------
+	gemSprite16.setTexture(gemTexture16);
+	gemSprite16.setOrigin(6, 6);
+	gemSprite16.setScale(2, 2);
+	//-----------------------
+	gemSprite17.setTexture(gemTexture17);
+	gemSprite17.setOrigin(6, 6);
+	gemSprite17.setScale(2, 2);
+	//-----------------------
+	gemSprite18.setTexture(gemTexture18);
+	gemSprite18.setOrigin(6, 6);
+	gemSprite18.setScale(2, 2);
+	//-----------------------
+	gemSprite19.setTexture(gemTexture19);
+	gemSprite19.setOrigin(6, 6);
+	gemSprite19;
+	//-----------------------
+	gemSprite20.setTexture(gemTexture20);
+	gemSprite20.setOrigin(6, 6);
+	gemSprite20.setScale(2, 2);
+	//-----------------------
+	gemSprite21.setTexture(gemTexture21);
+	gemSprite21.setOrigin(6, 6);
+	gemSprite21.setScale(2, 2);
+	//-----------------------
+	gemSprite22.setTexture(gemTexture22);
+	gemSprite22.setOrigin(6, 6);
+	gemSprite22.setScale(2, 2);
+	//-----------------------
+	gemSprite23.setTexture(gemTexture23);
+	gemSprite23.setOrigin(6, 6);
+	gemSprite23.setScale(2, 2);
+	//-----------------------
+	gemSprite24.setTexture(gemTexture24);
+	gemSprite24.setOrigin(6, 6);
+	gemSprite24.setScale(2, 2);
+	//-----------------------
+	gemSprite25.setTexture(gemTexture25);
+	gemSprite25.setOrigin(6, 6);
+	gemSprite25.setScale(2, 2);
+	//-----------------------
+	gemSprite26.setTexture(gemTexture26);
+	gemSprite26.setOrigin(6, 6);
+	gemSprite26.setScale(2, 2);
+	//-----------------------
+	gemSprite27.setTexture(gemTexture27);
+	gemSprite27.setOrigin(6, 6);
+	gemSprite27.setScale(2, 2);
+	
 	//Texto//
 	fuente.loadFromFile("../Recursos/OpenSans-Bold.ttf");
 	sf::Text menu("~~Menú de opciones~~", fuente, 12);
