@@ -205,7 +205,7 @@ int main()
 	//-----------------------
 	gemSprite19.setTexture(gemTexture19);
 	gemSprite19.setOrigin(6, 6);
-	gemSprite19;
+	gemSprite19.setScale(2,2);
 	//-----------------------
 	gemSprite20.setTexture(gemTexture20);
 	gemSprite20.setOrigin(6, 6);
@@ -341,15 +341,15 @@ int main()
 					//-- Right click to select two nodes to link --//
 					if (event.key.code == sf::Mouse::Right)
 					{
-						cout << "vector point tamano fuera " + pointVector.size() << "eso" << endl;
+						
 						//-- Search for a close local point, if found then anchor and set it as "active" --//
 						for (int i = 0; i < pointVector.size(); i++)
 						{
-							cout << "point vector tamano dentro " + pointVector.size() << "eso" << endl;
+							
 
 							if (sqrt(pow((localPosition.x - pointVector[i].x), 2) + pow((localPosition.y - pointVector[i].y), 2)) < 70)
 							{
-								cout << "temmporal vector tamano fuera " + activeTemp.size() << "eso" << endl;
+								
 								if (activeTemp.size() < 2)
 								{
 
@@ -371,20 +371,17 @@ int main()
 										
 
 											lineVector.push_back(tempLine);
-											cout << "LLene el vector linea" << endl;
+											
 											
 											activeTemp.insert(activeTemp.end(),pointVector.begin(),pointVector.end());
-											cout << "temporal antes de borrar" + activeTemp.size() << "eso" << endl;
 											
-											//activeTemp.clear();
-											cout << "temporal despues de borrar " + activeTemp.size() <<"eso" << endl;
 
 											//-- Add the new line to the Edge Vector, make sure it doesn't already exist. --//
 											bool valid = true;
-											cout << "edgevector  " + edgeVect.size() << endl;
+											
 											for (int i = 0; i < edgeVect.size(); i++)
 											{
-												cout << "edgevector dentro " + edgeVect.size() << endl;
+												
 												if ((edgeVect[i].vertexOne.x == activeTemp[1].x) && (edgeVect[i].vertexOne.y == activeTemp[1].y))
 												{
 													if (((edgeVect[i].vertexTwo.x == activeTemp[0].x) && (edgeVect[i].vertexTwo.y == activeTemp[0].y)))
@@ -519,45 +516,58 @@ int main()
 
 		if (calcStarted)
 		{
+			
 			for (int i = 0; i < nodeVect.size(); i++)
 			{
-				if (edgeVect[solutionIndex].vertexOne.x == nodeVect[i].Xpos)
-				{
-					if (edgeVect[solutionIndex].vertexOne.y == nodeVect[i].Ypos)
+				if (solutionIndex < edgeVect.size()) {
+				
+					if (edgeVect[solutionIndex].vertexOne.x == nodeVect[i].Xpos)
 					{
-						for (int j = 0; j < nodeVect.size(); j++)
+						
+						if (edgeVect[solutionIndex].vertexOne.y == nodeVect[i].Ypos)
 						{
-							if (edgeVect[solutionIndex].vertexTwo.x == nodeVect[j].Xpos)
+							for (int j = 0; j < nodeVect.size(); j++)
 							{
-								if (edgeVect[solutionIndex].vertexTwo.y == nodeVect[j].Ypos)
+								if (edgeVect[solutionIndex].vertexTwo.x == nodeVect[j].Xpos)
 								{
-									if (nodeVect[j].TreeID != nodeVect[i].TreeID)
+									if (edgeVect[solutionIndex].vertexTwo.y == nodeVect[j].Ypos)
 									{
-										//-- Convert all nodes to the new treeID preventing loop creation in the next iteration --//
-										for (int y = 0; y < nodeVect.size(); y++)
+										if (nodeVect[j].TreeID != nodeVect[i].TreeID)
 										{
-											if ((nodeVect[y].TreeID == nodeVect[j].TreeID) && j != y)
+											//-- Convert all nodes to the new treeID preventing loop creation in the next iteration --//
+											for (int y = 0; y < nodeVect.size(); y++)
 											{
-												nodeVect[y].TreeID = nodeVect[i].TreeID;
+												if ((nodeVect[y].TreeID == nodeVect[j].TreeID) && j != y)
+												{
+													
+													nodeVect[y].TreeID = nodeVect[i].TreeID;
+												}
 											}
+
+
+											
+											nodeVect[j].TreeID = nodeVect[i].TreeID;
+											
+											//-- Add a new overlay to the linkedVector --//
+											sf::VertexArray tempLine(sf::Lines, 2);
+
+											tempLine[0].position = sf::Vector2f(edgeVect[solutionIndex].vertexOne.x, edgeVect[solutionIndex].vertexOne.y);
+											tempLine[1].position = sf::Vector2f(edgeVect[solutionIndex].vertexTwo.x, edgeVect[solutionIndex].vertexTwo.y);
+											
+											tempLine[0].color = sf::Color::Yellow;
+											tempLine[1].color = sf::Color::Red;
+
+											linkedVector.push_back(tempLine);
+											
 										}
-										nodeVect[j].TreeID = nodeVect[i].TreeID;
-
-										//-- Add a new overlay to the linkedVector --//
-										sf::VertexArray tempLine(sf::Lines, 2);
-
-										tempLine[0].position = sf::Vector2f(edgeVect[solutionIndex].vertexOne.x, edgeVect[solutionIndex].vertexOne.y);
-										tempLine[1].position = sf::Vector2f(edgeVect[solutionIndex].vertexTwo.x, edgeVect[solutionIndex].vertexTwo.y);
-
-										tempLine[0].color = sf::Color::Yellow;
-										tempLine[1].color = sf::Color::Red;
-									
-										linkedVector.push_back(tempLine);
 									}
 								}
 							}
 						}
 					}
+				}
+				else {
+					break;
 				}
 			}
 
