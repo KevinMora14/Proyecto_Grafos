@@ -59,18 +59,18 @@ int main()
 	sf::Sprite gemSprite3;
 	fondo.setTexture(textura);
 	gemSprite.setTexture(gemTexture);
-	gemSprite.setOrigin(6, 6);
-	gemSprite.setScale(3, 3);
+	gemSprite.setOrigin(14, 14);
+	gemSprite.setScale(2, 2);
 	//-----------------------
 	gemSprite2.setTexture(gemTexture2);
 	gemSprite2.setOrigin(6, 6);
-	gemSprite2.setScale(3, 3);
+	gemSprite2.setScale(2, 2);
 	//-----------------------
 	gemSprite3.setTexture(gemTexture3);
 	gemSprite3.setOrigin(6, 6);
-	gemSprite3.setScale(3, 3);
+	gemSprite3.setScale(2, 2);
 
-	sf::RectangleShape primitiveLine;
+	//sf::RectangleShape primitiveLine;
 
 	vector<sf::Vector2i> pointVector;
 	vector<sf::VertexArray> lineVector;
@@ -88,7 +88,7 @@ int main()
 
 	int delayAmount = 0;
 	int solutionIndex = 0;
-
+	int peso=0;
 
 	//-- Main Game Loop --//
 	while (mainWindow.isOpen())
@@ -110,7 +110,7 @@ int main()
 
 						for (int i = 0; i < pointVector.size(); i++)
 						{
-							if (sqrt(pow((localPosition.x - pointVector[i].x), 2) + pow((localPosition.y - pointVector[i].y), 2)) < 100)
+							if (sqrt(pow((localPosition.x - pointVector[i].x), 2) + pow((localPosition.y - pointVector[i].y), 2)) < 70)
 							{
 								validPos = false;
 								cout << "posicion en falso" << endl;
@@ -119,6 +119,8 @@ int main()
 
 						if (validPos)
 						{
+							
+
 							//-- Place a pinpoint on the given click (add it to the main vector) --//
 							pointVector.push_back(localPosition);
 
@@ -132,11 +134,12 @@ int main()
 
 							nodeVect.push_back(newNode);
 
-							cout << "- Node Added -" << endl;
-							cout << "X - Position: " << newNode.Xpos << endl;
-							cout << "Y - Position: " << newNode.Ypos << endl;
-							cout << "TreeID: " << treeID << endl;
+							cout << "- Nodo creado -" << endl;
+							cout << "X - Posicion en X: " << newNode.Xpos << endl;
+							cout << "Y - Posicion en Y: " << newNode.Ypos << endl;
+							cout << "Id del arbol: " << treeID << endl;
 							cout << endl << endl;
+							
 						}
 
 					}
@@ -151,7 +154,7 @@ int main()
 						{
 							cout << "point vector tamano dentro " + pointVector.size() << "eso" << endl;
 
-							if (sqrt(pow((localPosition.x - pointVector[i].x), 2) + pow((localPosition.y - pointVector[i].y), 2)) < 100)
+							if (sqrt(pow((localPosition.x - pointVector[i].x), 2) + pow((localPosition.y - pointVector[i].y), 2)) < 70)
 							{
 								cout << "temmporal vector tamano fuera " + activeTemp.size() << "eso" << endl;
 								if (activeTemp.size() < 2)
@@ -169,8 +172,10 @@ int main()
 											tempLine[0].position = sf::Vector2f(activeTemp[1].x, activeTemp[1].y);
 											tempLine[1].position = sf::Vector2f(activeTemp[0].x, activeTemp[0].y);
 
-											tempLine[0].color = sf::Color::Red;
-											tempLine[1].color = sf::Color::Blue;
+											tempLine[0].color = sf::Color::Black;
+											tempLine[1].color = sf::Color::Black;
+
+										
 
 											lineVector.push_back(tempLine);
 											cout << "LLene el vector linea" << endl;
@@ -208,8 +213,11 @@ int main()
 
 											if (valid)
 											{
+												cout << "De que peso desea su arista " << endl;
+												cin >> peso;
 												Edge newEdge;
-												newEdge.length = sqrt(pow((activeTemp[1].x - activeTemp[0].x), 2) + pow((activeTemp[1].y - activeTemp[0].y), 2));
+												//newEdge.length = sqrt(pow((activeTemp[1].x - activeTemp[0].x), 2) + pow((activeTemp[1].y - activeTemp[0].y), 2));
+												newEdge.length = peso;
 												newEdge.vertexOne.x = activeTemp[1].x;
 												newEdge.vertexOne.y = activeTemp[1].y;
 
@@ -219,10 +227,10 @@ int main()
 												edgeVect.push_back(newEdge);
 
 												//-- Output Edge Data to the console --//
-												cout << "- Vertice Creado --" << endl;
-												cout << "Vertex - 1: " << activeTemp[1].x << " " << activeTemp[1].y << endl;
-												cout << "Vertex - 2: " << activeTemp[0].x << " " << activeTemp[0].y << endl;
-												cout << "Length: " << newEdge.length << endl << endl;
+												cout << "- Arista Creada --" << endl;
+												cout << "Vertice - 1: " << activeTemp[1].x << " " << activeTemp[1].y << endl;
+												cout << "Vertice - 2: " << activeTemp[0].x << " " << activeTemp[0].y << endl;
+												cout << "Peso: " << newEdge.length << endl << endl;
 												activeTemp.clear();
 
 											}
@@ -244,7 +252,8 @@ int main()
 
 			if (event.type == sf::Event::KeyReleased)
 			{
-				if (event.key.code == sf::Keyboard::Space)
+				//Algoritmo de Kruskall
+				if (event.key.code == sf::Keyboard::K)
 				{
 					delayAmount = 500;
 
@@ -267,7 +276,48 @@ int main()
 					//-- Prevent additional nodes from being added and Start the Calculation --//
 					calcStarted = true;
 				}
+
+				//Algoritmo de prim
+				else if (event.key.code == sf::Keyboard::P) {
+					delayAmount = 500;
+
+					//-- Inefficiently Sort the edge Vector from small to large --//
+
+					if (!calcStarted)
+					{
+						for (int i = 0; i < edgeVect.size(); i++)
+						{
+							for (int j = i; j < edgeVect.size(); j++)
+							{
+								if (edgeVect[i].length > edgeVect[j].length)
+								{
+									swap(edgeVect[i], edgeVect[j]);
+								}
+							}
+						}
+					}
+
+					//-- Prevent additional nodes from being added and Start the Calculation --//
+					calcStarted = true;
+				}
+				//Algoritmo de Warshall
+				else if (event.key.code == sf::Keyboard::W) {
+					//TODO
+				}
+				//Algoritmo de Dijkstra
+				else if (event.key.code == sf::Keyboard::D) {
+					//TODO
+				}
+				//Guardar
+				else if (event.key.code == sf::Keyboard::G) {
+					//TODO
+				}
+				//Cargar
+				else if (event.key.code == sf::Keyboard::C) {
+					//TODO
+				}
 			}
+
 		}
 
 		localPosition = sf::Mouse::getPosition(mainWindow);
@@ -307,8 +357,8 @@ int main()
 										tempLine[1].position = sf::Vector2f(edgeVect[solutionIndex].vertexTwo.x, edgeVect[solutionIndex].vertexTwo.y);
 
 										tempLine[0].color = sf::Color::Yellow;
-										tempLine[1].color = sf::Color::White;
-
+										tempLine[1].color = sf::Color::Red;
+									
 										linkedVector.push_back(tempLine);
 									}
 								}
@@ -361,10 +411,6 @@ int main()
 				mainWindow.draw(gemSprite3);
 			}
 			
-			
-			
-			
-		
 		}
 
 
