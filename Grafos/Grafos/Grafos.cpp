@@ -15,7 +15,7 @@ using std::vector;
 int main()
 {
 	//-- Create the render Window --//
-	sf::RenderWindow mainWindow(sf::VideoMode(1300, 700), "Grafos ", sf::Style::Close);
+	sf::RenderWindow mainWindow(sf::VideoMode(1300, 650), "Grafos ", sf::Style::Close);
 	//-- Limit the given framerate --//
 	mainWindow.setFramerateLimit(60);
 	//-- Disable Key Repetition to enable button pressed events. --//
@@ -43,6 +43,7 @@ int main()
 	//--------------------------//
 	sf::Texture textura;
 	sf::Sprite fondo;
+	sf::Font fuente;
 
 	sf::Vector2i localPosition;
 
@@ -69,6 +70,30 @@ int main()
 	gemSprite3.setTexture(gemTexture3);
 	gemSprite3.setOrigin(6, 6);
 	gemSprite3.setScale(2, 2);
+
+	//Texto//
+	fuente.loadFromFile("../Recursos/OpenSans-Bold.ttf");
+	sf::Text menu("~~Menú de opciones~~", fuente, 12);
+	menu.setPosition(80, 510);
+	menu.setFillColor(sf::Color::Black);
+	sf::Text Dijkstra("Presione D para aplicar el algoritmo dijkstra", fuente, 12);
+	Dijkstra.setPosition(20, 530);
+	Dijkstra.setFillColor(sf::Color::Black);
+	sf::Text Warshall("Presione W para aplicar el algoritmo warshall", fuente, 12);
+	Warshall.setPosition(20, 550);
+	Warshall.setFillColor(sf::Color::Black);
+	sf::Text Prim("Presione P para aplicar el algoritmo prim", fuente, 12);
+	Prim.setPosition(20, 570);
+	Prim.setFillColor(sf::Color::Black);
+	sf::Text Kruskal("Presione K para aplicar el algoritmo kruskal", fuente, 12);
+	Kruskal.setPosition(20, 590);
+	Kruskal.setFillColor(sf::Color::Black);
+	sf::Text Guardar("Presione G para aplicar el algoritmo guardar", fuente, 12);
+	Guardar.setPosition(20, 610);
+	Guardar.setFillColor(sf::Color::Black);
+	sf::Text Cargar("Presione C para aplicar el algoritmo cargar un grafo", fuente, 12);
+	Cargar.setPosition(20, 630);
+	Cargar.setFillColor(sf::Color::Black);
 
 	//sf::RectangleShape primitiveLine;
 
@@ -380,7 +405,15 @@ int main()
 		Sleep(delayAmount);
 		
 		mainWindow.clear(sf::Color::Black);
+
 		mainWindow.draw(fondo);
+		mainWindow.draw(menu);
+		mainWindow.draw(Dijkstra);
+		mainWindow.draw(Warshall);
+		mainWindow.draw(Prim);
+		mainWindow.draw(Kruskal);
+		mainWindow.draw(Guardar);
+		mainWindow.draw(Cargar);
 
 		//-- Draw all the given Sprites and Primitives --//
 		//cout << "vector linea " + lineVector.size() << endl;
