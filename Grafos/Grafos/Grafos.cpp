@@ -6,7 +6,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/OpenGL.hpp>
-
 using namespace std;
 using std::cout; using std::cin;
 using std::endl; using std::string;
@@ -39,7 +38,7 @@ int main()
 
 	//-- Every node is assigned a Unique Tree ID in the Beginning --//
 	int treeID = 0;
-	char letra[27] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','V','W','X','Y','Z' };
+	char letra[27] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','V','W','X','Y','Z'};
 	//-- Declarations Section --//
 	//--------------------------//
 	sf::Texture textura;
@@ -276,14 +275,20 @@ int main()
 	//-- Node vector for mathematical calculation --//
 	vector<Node> nodeVect;
 	vector<Edge> edgeVect;
+	vector<Edge> orden;
+	Edge ordenfin;
+	Edge ordenInicio;
+
 
 	//-- Bool for starting the calculations --//
 	bool calcStarted = false;
+	bool calcDijkstra = false;
 
 	int delayAmount = 0;
 	int solutionIndex = 0;
-	int peso=0;
-
+	int peso = 0, lugarInicio = 0,lugarfin=0;
+	char inicio;
+	char fin;
 	//-- Main Game Loop --//
 	while (mainWindow.isOpen())
 	{
@@ -406,7 +411,6 @@ int main()
 											{
 												cout << "De que peso desea su arista " << endl;
 												cin >> peso;
-												
 												Edge newEdge;
 												//newEdge.length = sqrt(pow((activeTemp[1].x - activeTemp[0].x), 2) + pow((activeTemp[1].y - activeTemp[0].y), 2));
 												newEdge.length = peso;
@@ -498,6 +502,55 @@ int main()
 				}
 				//Algoritmo de Dijkstra
 				else if (event.key.code == sf::Keyboard::D) {
+					delayAmount = 500;
+					cout << "Dijite el nodo Inicial " << endl;
+					cin >> inicio;
+					cout << "Dijite el nodo Final " << endl;
+					cin >> fin;
+					for (int x = 0; x < 27; x++) {
+						if (letra[x] == inicio) {
+							lugarInicio = x;
+						}
+						if (letra[x] == fin) {
+							lugarfin = x;
+						}
+					}
+					orden.push_back(edgeVect[lugarInicio]);
+					ordenInicio = edgeVect[lugarInicio];
+					//ordenfin = edgeVect[lugarfin];
+					//-- Inefficiently Sort the edge Vector from small to large --//
+					if (!calcDijkstra)
+					{
+						for (int i = 0; i < edgeVect.size(); i++)
+						{
+							for (int j = i; j < edgeVect.size(); j++)
+							{
+								if (edgeVect[i].length > edgeVect[j].length)
+								{
+									swap(edgeVect[i], edgeVect[j]);
+									
+								}
+								//cout << "Tamaño vecto " << edgeVect[j].length << endl;
+							}
+						}
+					}
+					for (int j = 0; j < edgeVect.size(); j++)
+					{
+						if (ordenInicio.length != edgeVect[j].length)
+						{
+							//if (edgeVect[j].length != ordenfin.length) {
+								orden.push_back(edgeVect[j]);
+								//cout << "Tamaño cambiando " << orden[j].length << endl;
+							//}
+						}
+					}
+					//orden.push_back(ordenfin);
+					for (int i = 0; i < orden.size(); i++)
+					{
+						cout << "Tamaño Orden " << orden[i].length << endl;
+					}
+					//-- Prevent additional nodes from being added and Start the Calculation --//
+					calcDijkstra = true;
 					//TODO
 				}
 				//Guardar
@@ -515,7 +568,60 @@ int main()
 		localPosition = sf::Mouse::getPosition(mainWindow);
 
 		//-- Do the necessary calculation here --//
+		if (calcDijkstra) {
+			for (int i = 0; i < nodeVect.size(); i++)
+			{
+				if (solutionIndex < orden.size()) {
+					if (orden[solutionIndex].vertexOne.x == nodeVect[i].Xpos)
+					{
+						if (orden[solutionIndex].vertexOne.y == nodeVect[i].Ypos)
+						{
+							for (int j = 0; j < nodeVect.size(); j++)
+							{
+								if (orden[solutionIndex].vertexTwo.x == nodeVect[j].Xpos)
+								{
+									if (orden[solutionIndex].vertexTwo.y == nodeVect[j].Ypos)
+									{
+										if (nodeVect[j].TreeID != nodeVect[i].TreeID)
+										{
+											//-- Convert all nodes to the new treeID preventing loop creation in the next iteration --//
+											for (int y = 0; y < nodeVect.size(); y++)
+											{
+												if ((nodeVect[y].TreeID == nodeVect[j].TreeID) && j != y)
+												{
 
+													nodeVect[y].TreeID = nodeVect[i].TreeID;
+												}
+											}
+											nodeVect[j].TreeID = nodeVect[i].TreeID;
+
+											//-- Add a new overlay to the linkedVector --//
+											sf::VertexArray tempLine(sf::Lines, 2);
+
+											tempLine[0].position = sf::Vector2f(orden[solutionIndex].vertexOne.x, orden[solutionIndex].vertexOne.y);
+											tempLine[1].position = sf::Vector2f(orden[solutionIndex].vertexTwo.x, orden[solutionIndex].vertexTwo.y);
+
+											tempLine[0].color = sf::Color::Yellow;
+											tempLine[1].color = sf::Color::Red;
+
+											linkedVector.push_back(tempLine);
+
+										}
+									}
+								}
+							}
+						}
+					}
+					
+				}
+				else {
+					break;
+				}
+			}
+
+			//-- Increment the solution index (Edge to check in the next iteration) --//
+			solutionIndex++;
+		}
 		if (calcStarted)
 		{
 			
