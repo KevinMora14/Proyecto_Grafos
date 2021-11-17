@@ -29,6 +29,7 @@ int main()
 		int Ypos;
 	};
 
+
 	struct Edge
 	{
 		sf::Vector2i vertexOne;
@@ -405,6 +406,7 @@ int main()
 											{
 												cout << "De que peso desea su arista " << endl;
 												cin >> peso;
+												
 												Edge newEdge;
 												//newEdge.length = sqrt(pow((activeTemp[1].x - activeTemp[0].x), 2) + pow((activeTemp[1].y - activeTemp[0].y), 2));
 												newEdge.length = peso;
@@ -621,8 +623,103 @@ int main()
 				gemSprite3.setPosition(pointVector[i].x, pointVector[i].y);
 				mainWindow.draw(gemSprite3);
 			}
-			
-		}
+			else if (i == 3) {
+				gemSprite4.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite4);
+			}
+			else if (i == 4) {
+				gemSprite5.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite5);
+			}
+			else if (i == 5) {
+				gemSprite6.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite6);
+			}
+			else if (i == 6) {
+				gemSprite7.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite7);
+			}
+			else if (i == 7) {
+				gemSprite8.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite8);
+			}
+			else if (i == 8) {
+				gemSprite9.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite9);
+			}
+			else if (i == 9) {
+				gemSprite10.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite10);
+			}
+			else if (i == 10) {
+				gemSprite11.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite11);
+			}
+			else if (i == 11) {
+				gemSprite12.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite12);
+			}
+			if (i == 12) {
+				gemSprite13.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite13);
+			}
+			else if (i == 13) {
+				gemSprite14.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite14);
+			}
+			else if (i == 14) {
+				gemSprite15.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite15);
+			}
+			else if (i == 15) {
+				gemSprite16.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite16);
+			}
+			else if (i == 16) {
+				gemSprite17.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite17);
+			}
+			else if (i == 17) {
+				gemSprite18.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite18);
+			}
+			else if (i == 18) {
+				gemSprite19.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite19);
+			}
+			else if (i == 19) {
+				gemSprite20.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite20);
+			}
+			else if (i == 20) {
+				gemSprite21.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite21);
+			}
+			else if (i == 21) {
+				gemSprite22.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite22);
+			}
+			else if (i == 22) {
+				gemSprite23.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite23);
+			}
+			else if (i == 23) {
+				gemSprite24.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite24);
+			}
+			else if (i == 24) {
+				gemSprite25.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite25);
+			}
+			else if (i == 25) {
+				gemSprite26.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite26);
+			}
+			else if (i == 26) {
+				gemSprite27.setPosition(pointVector[i].x, pointVector[i].y);
+				mainWindow.draw(gemSprite27);
+			}
+		}	
 
 
 		
